@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          Disable Text Ads
 // @namespace     http://www.fibble.org/
-// @description	  Disables inline text ads from Vibrant Media (IntelliTXT), Kontera, Linkworth, EchoTopic, Targetpoint, Amazon and Mediatext.
+// @description	  Disables inline text ads from Vibrant Media (IntelliTXT), AdBrite, Infolicious (lingoSpot), Kontera, Linkworth, EchoTopic, Targetpoint (defunct?), MediaText (defunct), ResultLinks, Chitika and Infolinks.
 // @version 9.0
 // @include       http://*
 // ==/UserScript==

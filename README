@@ -1,4 +1,4 @@
-This script does exactly what it says - it hides contextual ads within a page so you, the user, can once again safely mouse over your browser window. Currently, version 8.2 will block ads from Vibrant Media (IntelliTXT), AdBrite, Infolicious (lingoSpot), Kontera, Linkworth, EchoTopic, Targetpoint (defunct?), MediaText (defunct), ResultLinks, Chitika and Infolinks.
+This script does exactly what it says - it hides contextual ads within a page so you, the user, can once again safely mouse over your browser window. Currently, version 9 will block ads from Vibrant Media (IntelliTXT), AdBrite, Infolicious (lingoSpot), Kontera, Linkworth, EchoTopic, Targetpoint (defunct?), MediaText (defunct), ResultLinks, Chitika and Infolinks.
 
 Version 9 adds support for blocking ads from Chitika, InfoLinks and ResultLinks.
 
