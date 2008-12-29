@@ -1,5 +1,20 @@
-This script does exactly what it says - it hides contextual ads within a page so you, the user, can once again safely mouse over your browser window. Currently, version 8.2 will block ads from Vibrant Media (IntelliTXT), AdBrite, Infolicious (lingoSpot), Kontera, Linkworth, EchoTopic, Targetpoint and MediaText.
+This script does exactly what it says - it hides contextual ads within a page so you, the user, can once again safely mouse over your browser window. Currently, version 8.2 will block ads from Vibrant Media (IntelliTXT), AdBrite, Infolicious (lingoSpot), Kontera, Linkworth, EchoTopic, Targetpoint (defunct?), MediaText (defunct), ResultLinks, Chitika and Infolinks.
 
-Version 8.2 re-fixes Linkworth and Vibrant Media blocking - apologies for the rapid version changes.
+Version 9 adds support for blocking ads from Chitika, InfoLinks and ResultLinks.
 
 Credit to Brian Donovan for the basic approach. his JS is clearly better than mine. Credit to Mike for the original code for blocking Linkworth ads, and Decriptor for additional Linkworth and Vibrant Media blocking code.
+
+
+Ad networks blocked, along with the sites used to test:
+
+AdBrite: http://xtreme-wrestling-network.com/FORUM/index.php?showtopic=19258
+IntelliTXT:  http://anandtech.com/mobile/showdoc.aspx?i=3485
+Kontera: http://www.delphifaq.com/faq/about/f1793.shtml
+Linkworth: http://earnmoneyfromblog1.blogspot.com/2007/09/text-link-ads-and-linkworth-adsense.html
+EchoTopic: http://www.bigbruin.com/2008/oczsli2000_1
+InfoLinks: http://www.hongkiat.com/blog/linkworth-allows-nofollow-option-in-text-links-ads/
+ResultLinks: http://www.ebaumsworld.com/jokes/read/80471259/
+Chitika: http://philscomputerrepair.com/Windows-Vista-Ready-Boost.htm
+Clicksor: I can't find an example of this network anywhere any more.  They do appear to be an ongoing concern.
+Targetpoint: This service appears to be defunct. Their web site is broken, and I can't find a publisher using them.
+MediaText: Defunct as of October 2008. 

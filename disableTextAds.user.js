@@ -2,7 +2,7 @@
 // @name          Disable Text Ads
 // @namespace     http://www.fibble.org/
 // @description	  Disables inline text ads from Vibrant Media (IntelliTXT), Kontera, Linkworth, EchoTopic, Targetpoint, Amazon and Mediatext.
-// @version 8.2
+// @version 9.0
 // @include       http://*
 // ==/UserScript==
 
@@ -14,12 +14,16 @@ var disableTextAds = {
     
     switch(elt.nodeName.toLowerCase()) {
 
-      // EchoTopic wraps their inserted links in a <nobr> tag.
+      // EchoTopic and ResultLinks wrap their inserted links in a <nobr> tag.
       case 'nobr':
-      if (elt.firstChild.getAttribute('class') == "tfTextLink") {
+      if (elt.firstChild.getAttribute('class') == "tfTextLink") { //EchoTopic
         childNode = elt.firstChild.firstChild;
+      } else if (elt.firstChild.hasAttribute('id') && elt.firstChild.getAttribute('id').search(/RLLINK/) >= 0) { //ResultLinks
+        childNode = elt.firstChild.firstChild;        
       }
+      
       break;
+      
 
       // AdBrite check
       case 'ispan':
@@ -29,11 +33,34 @@ var disableTextAds = {
         }
       }
       break;
+      
+      // Chitika
+      case 'span':
+      if (elt.firstChild.nodeName.toLowerCase() == 'a') {
+        if (elt.getAttribute('class') != null && elt.getAttribute('class').search(/lx-link/) >= 0) {
+          childNode = elt.firstChild.firstChild;
+          break;          
+        }
+      }
 
       // The rest of the networks
       case 'a':
 
-      // Vibrant Media
+      var a_class = elt.getAttribute('class');
+
+      switch(a_class) {
+        // Infolinks
+        case 'IL_LINK_STYLE':
+          childNode = elt.firstChild;
+          break;
+
+        // Kontera
+        case 'kLink':
+          childNode = disableTextAds.findKonteraText(elt);
+          break;        
+      }
+      
+      // IntelliTXT
       if (elt.hasAttribute('itxtdid')) {
         childNode = elt.firstChild;
         break;
@@ -51,11 +78,6 @@ var disableTextAds = {
         break;
       }			
 
-      // Kontera check
-      if (elt.getAttribute('class') == 'kLink') {
-        childNode = disableTextAds.findKonteraText(elt);
-        break;
-      }
 
 
       // Old AdBrite check - not sure if this is still relevant
@@ -63,12 +85,6 @@ var disableTextAds = {
         if (match = elt.getAttribute('id').match(/AdBriteInlineAd_(.*)/i)) {
           childNode = document.createTextNode(match[1]);
         }
-        break;
-      }
-
-      // Credit to 'Mike' for Linkworth ad blocking code
-      if ( elt.getAttribute('class') == "lw_cad_link" ) {
-        childNode = elt.firstChild;
         break;
       }
 
@@ -101,8 +117,9 @@ var disableTextAds = {
 
   document.addEventListener('DOMNodeInserted', function(event) { disableTextAds.blockAds(event.target); }, true);
 
-  // Strictly for Linkworth blocking
+  // Handle the cases that don't trigger our DOMNodeInserted hook.
   window.addEventListener("load", function(event) { 
+
     // According to LingoSpot, setting this global variable will disable all ads.  Doesn't actually see to have any effect.
     unsafeWindow.LINGOSPOT_DISABLED = true;
 
@@ -110,18 +127,10 @@ var disableTextAds = {
     // Still, it should reduce runtime for pages where it works.
     unsafeWindow.tf_maxKeywords = 0;
 
-    var div = document.getElementById("lw_context_ads");
-    if (div) {
-      var links = document.evaluate("//a[@class='lw_cad_link']", div, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
-      for (var i=0; i<links.snapshotLength; i++) { disableTextAds.blockAds(links.snapshotItem(i)); }
-    }
-
-    span = document.getElementById('intellitxt');
-    if (span) {
-      var anchors = document.evaluate("//a[@itxtdid]", span, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
-      for(var i=0; i<anchors.snapshotLength; i++) {
-        var anchor = anchors.snapshotItem(i);
-        anchor.parentNode.replaceChild(document.createTextNode(anchor.textContent), anchor);
-      }
+    // Unfortunately, Linkworth has decided to remove their container div, so we're stuck crawling the entire document body.  Meh.
+    var links = document.evaluate("//a[@class='lw_cad_link' or @itxtdid]", document.body, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
+    for (var i=0; i<links.snapshotLength; i++) { 
+      var anchor = links.snapshotItem(i);
+      anchor.parentNode.replaceChild(document.createTextNode(anchor.textContent), anchor);
     }
   }, false);
